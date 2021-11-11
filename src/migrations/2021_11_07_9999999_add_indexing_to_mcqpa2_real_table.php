@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class addColumnToMcqpa2AnsTable extends Migration
+class addColumnToMcqpa2RealTable extends Migration
 {
     /**
      * Run the migrations.
