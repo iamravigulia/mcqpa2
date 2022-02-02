@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnToMcqpa2Table extends Migration
+class addForeignMediaToMcqpa2Table extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class AddColumnToMcqpa2Table extends Migration
      */
     public function up()
     {
-        Schema::table('fmt_mcqpa2_ques', function (Blueprint $table) {
-            $table->string('format_title')->nullable();
-        });
+        if (Schema::hasTable('fmt_mcqpa2_ques')) {
+            Schema::table('fmt_mcqpa2_ques', function (Blueprint $table) {
+                $table->foreignId('media_id_es')->nullable();
+            });
+        }
     }
 
     /**
@@ -25,6 +27,6 @@ class AddColumnToMcqpa2Table extends Migration
      */
     public function down()
     {
-        // Schema::dropIfExists('fmt_mcqanpt_ques');
+        // Schema::dropIfExists('fmt_lamas_ques');
     }
 }

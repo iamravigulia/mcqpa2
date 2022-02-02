@@ -11,9 +11,9 @@ use Illuminate\Http\Request;
 class Mcqpa2Controller extends Controller
 {
     //
-    public function test(){
-        dd('hello');
-    }
+    // public function test(){
+    //     dd('hello');
+    // }
     public function store(Request $request){
         $pmQ = new Mcqpa2Ques();
         $pmQ->question = $request->question;
@@ -21,10 +21,19 @@ class Mcqpa2Controller extends Controller
         $pmQ->format_title = $request->format_title;
         if($request->question_1_audio){
             $question_1_audio = new Media();
-            $request->question_1_audio->storeAs('public/questions', time().$request->question_1_audio->getClientOriginalName());
-            $question_1_audio->url = 'questions/'.time().$request->question_1_audio->getClientOriginalName();
+            $name_en = time(). uniqid() . $request->question_1_audio->getClientOriginalName();
+            $request->question_1_audio->storeAs('public/questions', $name_en);
+            $question_1_audio->url = 'questions/'. $name_en;
             $question_1_audio->save();
             $pmQ->media_id = $question_1_audio->id;
+        }
+        if($request->question_1_audio_es){
+            $ques_media_es = new Media();
+            $name_es = time().uniqid().$request->question_1_audio_es->getClientOriginalName();
+            $request->question_1_audio_es->storeAs('public/answers', $name_es);
+            $ques_media_es->url = 'answers/'.$name_es;
+            $ques_media_es->save();
+            $pmQ->media_id_es = $ques_media_es->id;
         }
         $pmQ->hint = $request->hint;
         $pmQ->save();
@@ -35,8 +44,9 @@ class Mcqpa2Controller extends Controller
             $answer_1->answer = $request->answer_1;
             if($request->answer_1_image){
                 $answer_1_image = new Media();
-                $request->answer_1_image->storeAs('public/questions', time().$request->answer_1_image->getClientOriginalName());
-                $answer_1_image->url = 'questions/'.time().$request->answer_1_image->getClientOriginalName();
+                $img1 = time(). uniqid() . $request->answer_1_image->getClientOriginalName();
+                $request->answer_1_image->storeAs('public/questions', $img1);
+                $answer_1_image->url = 'questions/'. $img1;
                 $answer_1_image->save();
                 $answer_1->media_id = $answer_1_image->id;
             }
@@ -54,8 +64,9 @@ class Mcqpa2Controller extends Controller
             $answer_2->answer = $request->answer_2;
             if($request->answer_2_image){
                 $answer_2_image = new Media();
-                $request->answer_2_image->storeAs('public/questions', time().$request->answer_2_image->getClientOriginalName());
-                $answer_2_image->url = 'questions/'.time().$request->answer_2_image->getClientOriginalName();
+                $img2 = time(). uniqid() . $request->answer_2_image->getClientOriginalName();
+                $request->answer_2_image->storeAs('public/questions', $img2);
+                $answer_2_image->url = 'questions/'. $img2;
                 $answer_2_image->save();
                 $answer_2->media_id = $answer_2_image->id;
             }
@@ -161,10 +172,19 @@ class Mcqpa2Controller extends Controller
         $q->hint = $request->hint;
         if($request->question_1_audio){
             $question_1_audio = new Media();
-            $request->question_1_audio->storeAs('public/questions', time().$request->question_1_audio->getClientOriginalName());
-            $question_1_audio->url = 'questions/'.time().$request->question_1_audio->getClientOriginalName();
+            $audio__name = time(). uniqid() . $request->question_1_audio->getClientOriginalName();
+            $request->question_1_audio->storeAs('public/questions', $audio__name);
+            $question_1_audio->url = 'questions/'. $audio__name;
             $question_1_audio->save();
             $q->media_id = $question_1_audio->id;
+        }
+        if($request->question_1_audio_es){
+            $ques_media_es = new Media();
+            $name_es = time().uniqid().$request->question_1_audio_es->getClientOriginalName();
+            $request->question_1_audio_es->storeAs('public/answers', $name_es);
+            $ques_media_es->url = 'answers/'.$name_es;
+            $ques_media_es->save();
+            $q->media_id_es = $ques_media_es->id;
         }
         $q->save();
         $answers = Mcqpa2Ans::where('question_id', $q->id)->get();
@@ -228,9 +248,10 @@ class Mcqpa2Controller extends Controller
             $uploadImage = explode(".", $valueImage->getClientOriginalName());
             if($uploadImage[0] == $question_image){
                 // dd($valueImage);
+                $name = time(). uniqid() . $valueImage->getClientOriginalName();
                 $media = new Media();
-                $valueImage->storeAs('public/question_images', time() . $valueImage->getClientOriginalName());
-                $media->url = 'question_images/' . time() . $valueImage->getClientOriginalName();
+                $valueImage->storeAs('public/question_images', $name);
+                $media->url = 'question_images/' . $name;
                 $media->save();
                 return $media->id;
             }
@@ -240,6 +261,7 @@ class Mcqpa2Controller extends Controller
         $file = $request->file('file');
         $images = $request->file('images');
         $audio = $request->file('audio');
+        $audio_es = $request->file('audio_es');
         // dd($file);
         // File Details
         $filename = $file->getClientOriginalName();
@@ -301,6 +323,7 @@ class Mcqpa2Controller extends Controller
                         "arrange4" => $importData[14],
 
                         "level" => $importData[15],
+                        "media_es" => $importData[16],
 
                     );
                     // var_dump($insertData['answer1']);
@@ -321,6 +344,10 @@ class Mcqpa2Controller extends Controller
                         if (!empty($insertData['question_media']) && $insertData['question_media'] != '') {
                             $media_id = $this->imagecsv($insertData['question_media'], $audio);
                             $fill_Q->media_id = $media_id;
+                        }
+                        if (!empty($insertData['media_es']) && $insertData['media_es'] != '') {
+                            $media_id_es = $this->imagecsv($insertData['media_es'], $audio_es);
+                            $fill_Q->media_id_es = $media_id_es;
                         }
                         // $m2 = new Media();
                         // $m2->url = $insertData['question_media'];

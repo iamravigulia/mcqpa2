@@ -63,8 +63,14 @@
                     <div class="flex flex-wrap -mx-4 my-2">{{-- flex-wrap --}}
                         <div class="w-1/2 px-4">{{-- w-1/2 --}}
                             <div class="my-2">
-                                <label class="bloc" for="">Audio</label>
+                                <label class="bloc" for="">English Audio</label>
                                 <input type="file" accept="audio/*" name="question_1_audio" class="w-full border border-gray-500 rounded-lg p-2">
+                            </div>
+                        </div>{{-- //w-1/2 --}}
+                        <div class="w-1/2 px-4">{{-- w-1/2 --}}
+                            <div class="my-2">
+                                <label class="bloc" for="">Spanish Audio</label>
+                                <input type="file" accept="audio/*" name="question_1_audio_es" class="w-full border border-gray-500 rounded-lg p-2">
                             </div>
                         </div>{{-- //w-1/2 --}}
                     </div>{{-- //flex-wrap --}}

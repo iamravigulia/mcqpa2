@@ -62,8 +62,14 @@
         </div>
         <div class="fmt_flex">
             <div style="margin:10px 10px;">
-                <label class="fmt_label" for="">Audio</label>
+                <label class="fmt_label" for="">English Audio</label>
                 <input style="display:block;" type="file" accept="audio/*" name="question_1_audio" id="" style="width: 100%;">
+            </div>
+        </div>
+        <div class="fmt_flex">
+            <div style="margin:10px 10px;">
+                <label class="fmt_label" for="">Spanish Audio</label>
+                <input style="display:block;" type="file" accept="audio/*" name="question_1_audio_es" id="" style="width: 100%;">
             </div>
         </div>
         <div>
@@ -223,8 +229,12 @@
             <input style="display:block;" type="file" name="images[]" multiple accept="image/*" placeholder="image" required>
         </div>
         <div style="display:block; padding:10px;">
-            <div style="font-size:12px;">Audio</div>
-            <input style="display:block;" type="file" name="audio[]" multiple accept="audio/*" placeholder="audio" required>
+            <div style="font-size:12px;">English Audio</div>
+            <input style="display:block;" type="file" name="audio[]" multiple accept="audio/*" placeholder="english audio" required>
+        </div>
+        <div style="display:block; padding:10px;">
+            <div style="font-size:12px;">Spanish Audio</div>
+            <input style="display:block;" type="file" name="audio_es[]" multiple accept="audio/*" placeholder="spanish audio" required>
         </div>
         <button type="submit" style="display: inline-block; margin:10px; padding:4px 20px; background:green; color:#fff; text-transform:uppercase; border-radius:4px;">submit</button>
     </form>
